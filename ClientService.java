@@ -10,7 +10,6 @@ public class ClientService {
 	private static ClientService service = new ClientService();
 
 	private ClientService() {
-
 	}
 
 	public static ClientService getInstance() {
@@ -24,8 +23,16 @@ public class ClientService {
 
 	public void save() {
 		ClientDTO clientDTO = new ClientDTO();
-		System.out.print("ID >>> ");
-		clientDTO.setId(sc.next());
+		while (true) {
+			System.out.print("ID >>> ");
+			clientDTO.setId(sc.next());
+			if (repository.dupCheck(clientDTO.getId())) {
+				System.out.println("이미 사용중인 아이디입니다. 다시 입력해주세요");
+				continue;
+			} else {
+				break;
+			}
+		}
 		System.out.print("PASSWORD >>> ");
 		clientDTO.setPassword(sc.next());
 		System.out.print("NAME >>> ");
@@ -37,6 +44,7 @@ public class ClientService {
 		}
 
 	}
+	
 
 	public boolean loginCheck() { // <-- Q)왜 Service에서는 매개변수를 안받고 repository에서 받는거죠?
 		// 일단 ID하고 비밀번호 입력창
@@ -150,7 +158,9 @@ public class ClientService {
 		if (repository.transferCheck(transferAccount)) {
 			// 내 계좌에 돈이 있는가?
 			if (repository.withdraw(account, transferMoney)) {
-				System.out.println(transferAccount + " 계좌로 " + transferMoney + " 원을 이체합니다.");
+				if (repository.deposit(transferAccount, transferMoney)) {
+					System.out.println(transferAccount + " 계좌로 " + transferMoney + " 원을 이체합니다.");
+				}
 			} else {
 				System.out.println("잔액이 부족합니다.");
 			}
@@ -177,11 +187,10 @@ public class ClientService {
 			} else {
 				System.out.println("업데이트 오류");
 			}
-			
+
 		} else {
 			System.out.println("비밀번호가 일치하지 않습니다.");
 		}
-
 
 	}
 

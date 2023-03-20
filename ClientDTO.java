@@ -22,7 +22,7 @@ public class ClientDTO {
 			firstNum++;
 			num = 1000;
 		}
-		this.account = firstNum+"-"+num++;
+		this.account = firstNum + "-" + num++;
 
 	}
 

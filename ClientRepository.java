@@ -4,13 +4,13 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Scanner;
 
 public class ClientRepository {
 
 	private static ClientRepository repository = new ClientRepository();
 
 	private ClientRepository() {
-
 	}
 
 	public static ClientRepository getInstance() {
@@ -18,8 +18,11 @@ public class ClientRepository {
 	}
 
 	ClientDTO clientDTO = new ClientDTO();
-	private Map<String, ClientDTO> cMap = new HashMap<>();
-	private List<BreakdownDTO> bList = new ArrayList<>();
+
+	Map<String, ClientDTO> cMap = new HashMap<>();
+	List<BreakdownDTO> bList = new ArrayList<>();
+	
+	Scanner sc = new Scanner(System.in);
 
 	public boolean save(ClientDTO clientDTO) {
 		ClientDTO result = cMap.put(clientDTO.getId(), clientDTO);
@@ -28,6 +31,25 @@ public class ClientRepository {
 		}
 		return false;
 
+	}
+
+//	public boolean save(ClientDTO clientDTO) {
+//		if(cMap.put(clientDTO.getAccount(), clientDTO) == null) {
+//			return true;
+//		} else {
+//				return false;
+//		}
+//	}
+	
+	public boolean dupCheck(String id) {
+		while (true) {
+			for (String key : cMap.keySet()) {
+				if (cMap.get(key).getId().equals(id)) {
+					return true;
+				}
+			}
+			return false;
+		}
 	}
 
 	public boolean loginCheck(String id, String password) {
@@ -124,7 +146,7 @@ public class ClientRepository {
 		}
 		return false;
 	}
-	
+
 	public boolean update(String id, String password, String updatePassword) {
 		for (String key : cMap.keySet()) {
 			if (cMap.get(key).getId().equals(id) && cMap.get(key).getPassword().equals(password)) {
@@ -135,7 +157,6 @@ public class ClientRepository {
 		return false;
 	}
 
-
 	public boolean delete(String id, String password) {
 		for (String key : cMap.keySet()) {
 			if (cMap.get(key).getId().equals(id) && cMap.get(key).getPassword().equals(password)) {
@@ -144,7 +165,21 @@ public class ClientRepository {
 			}
 		}
 		return false;
-
 	}
+	
+	
+	public String clientCheck (String id, String password) {
+		for (String key : cMap.keySet()) {
+			if (cMap.get(key).getId().equals(id) && cMap.get(key).getPassword().equals(password)) {
+				cMap.remove(key);
+				return key;
+			}
+		}
+		return null;
+
+				
+				
+	}
+
 
 }

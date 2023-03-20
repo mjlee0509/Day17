@@ -6,7 +6,7 @@ public class ClientMain {
 	public static void main(String[] args) {
 
 		Scanner sc = new Scanner(System.in);
-		ClientService service = ClientService.getInstance();
+		ClientService service = ClientService.getInstance();	// 싱글톤 : 객체를 만들때 new로 만들 필요 없이 직접 클래스에 접근
 		boolean loginOk = false;
 
 		while (true) {
